@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "name": "Electronics",
+    "icon": "Smartphone",
+    "themeColor": "#3b82f6",
+    "description": "Latest gadgets, smartphones, laptops, and electronic accessories",
+    "categories": ["Smartphones", "Laptops", "Headphones", "Cameras", "Gaming", "Smart Home", "Accessories"]
+  },
+  {
+    "Id": 2,
+    "name": "Grocery",
+    "icon": "ShoppingBasket",
+    "themeColor": "#10b981",
+    "description": "Fresh produce, pantry essentials, and household items",
+    "categories": ["Fresh Produce", "Dairy & Eggs", "Meat & Seafood", "Pantry", "Beverages", "Snacks", "Household"]
+  },
+  {
+    "Id": 3,
+    "name": "Toys",
+    "icon": "Gamepad2",
+    "themeColor": "#f59e0b",
+    "description": "Fun toys, games, and educational items for all ages",
+    "categories": ["Action Figures", "Educational", "Board Games", "Building Blocks", "Outdoor Toys", "Arts & Crafts", "Plush Toys"]
+  },
+  {
+    "Id": 4,
+    "name": "Stationery",
+    "icon": "PenTool",
+    "themeColor": "#8b5cf6",
+    "description": "Office supplies, school essentials, and creative materials",
+    "categories": ["Writing Tools", "Notebooks", "Art Supplies", "Office Equipment", "School Supplies", "Organizers", "Planners"]
+  },
+  {
+    "Id": 5,
+    "name": "Furniture",
+    "icon": "Sofa",
+    "themeColor": "#ef4444",
+    "description": "Modern furniture and home decor for every room",
+    "categories": ["Living Room", "Bedroom", "Dining Room", "Office", "Storage", "Decor", "Lighting"]
+  }
+]
