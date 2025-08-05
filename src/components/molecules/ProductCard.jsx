@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { toast } from "react-toastify"
@@ -9,6 +9,8 @@ import { cartService } from "@/services/api/cartService"
 
 const ProductCard = ({ product, className = "" }) => {
   const navigate = useNavigate()
+  const [imageError, setImageError] = useState(false)
+  const [imageLoading, setImageLoading] = useState(true)
 
   const handleAddToCart = async (e) => {
     e.stopPropagation()
@@ -22,6 +24,15 @@ const ProductCard = ({ product, className = "" }) => {
 
   const handleCardClick = () => {
     navigate(`/product/${product.Id}`)
+  }
+
+const handleImageLoad = () => {
+    setImageLoading(false)
+  }
+
+  const handleImageError = () => {
+    setImageError(true)
+    setImageLoading(false)
   }
 
   const renderStars = (rating) => {
@@ -45,12 +56,32 @@ const ProductCard = ({ product, className = "" }) => {
       className={`card-premium cursor-pointer group overflow-hidden ${className}`}
       onClick={handleCardClick}
     >
-      <div className="relative overflow-hidden">
-        <img
-          src={product.images[0]}
-          alt={product.name}
-          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+      <div className="relative overflow-hidden bg-gray-100">
+        {imageLoading && !imageError && (
+          <div className="w-full h-48 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+          </div>
+        )}
+        
+        {imageError ? (
+          <div className="w-full h-48 flex items-center justify-center bg-gray-50">
+            <div className="text-center text-gray-400">
+              <ApperIcon name="Image" className="w-12 h-12 mx-auto mb-2" />
+              <p className="text-sm">Image unavailable</p>
+            </div>
+          </div>
+        ) : (
+          <img
+            src={product.images?.[0] || ''}
+            alt={product.name}
+            className={`w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 ${
+              imageLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            style={{ display: imageLoading ? 'none' : 'block' }}
+          />
+        )}
         {product.stock < 10 && (
           <Badge 
             variant="warning" 
