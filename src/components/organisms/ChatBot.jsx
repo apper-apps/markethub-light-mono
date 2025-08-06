@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-toastify'
 import ApperIcon from '@/components/ApperIcon'
 import Button from '@/components/atoms/Button'
-
+import chatService from '@/services/api/chatService'
 const ChatBot = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([
     {
@@ -32,58 +32,22 @@ const ChatBot = ({ isOpen, onClose }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const getBotResponse = (userMessage) => {
-    const message = userMessage.toLowerCase()
-    
-    if (message.includes('store') || message.includes('shop')) {
-      return "I can help you find stores! We have Electronics, Fashion, Home & Garden, Books, and Sports stores. Which category interests you?"
+// Initialize chat session on component mount
+  useEffect(() => {
+    chatService.getCurrentSession()
+  }, [])
+
+  const getBotResponse = async (userMessage, context = {}) => {
+    try {
+      const response = await chatService.generateResponse(userMessage, context)
+      return response
+    } catch (error) {
+      console.error('Error generating bot response:', error)
+      return "I'm sorry, I'm having trouble processing your request right now. Please try again in a moment."
     }
-    
-    if (message.includes('product') || message.includes('search')) {
-      return "You can search for products using the search bar at the top. I can also help you find specific items - just tell me what you're looking for!"
-    }
-    
-    if (message.includes('cart') || message.includes('checkout')) {
-      return "Your cart is always available in the top-right corner. You can add items, update quantities, and proceed to checkout anytime. Need help with a specific cart issue?"
-    }
-    
-    if (message.includes('order') || message.includes('delivery')) {
-      return "After checkout, you'll receive an order confirmation with tracking details. Orders typically process within 24 hours. Is there a specific order you need help with?"
-    }
-    
-    if (message.includes('help') || message.includes('support')) {
-      return "I'm here to help! I can assist with:\n• Finding stores and products\n• Cart and checkout questions\n• Order status and delivery\n• Account and payment issues\n\nWhat do you need help with?"
-    }
-    
-    if (message.includes('recommend') || message.includes('suggest')) {
-      return "I'd love to recommend products! What are you interested in? For example, I can suggest electronics, fashion items, home products, books, or sports equipment."
-    }
-    
-    if (message.includes('electronics')) {
-      return "Great choice! Our Electronics store has smartphones, laptops, headphones, and smart home devices. Popular items include the latest phones and wireless earbuds. What type of electronics are you looking for?"
-    }
-    
-    if (message.includes('fashion') || message.includes('clothes')) {
-      return "Our Fashion store has trendy clothing, shoes, and accessories for all styles. We have casual wear, formal attire, and seasonal collections. Are you shopping for a specific occasion?"
-    }
-    
-    if (message.includes('price') || message.includes('cost') || message.includes('cheap')) {
-      return "I can help you find great deals! Use the filters on product pages to sort by price, or browse our featured products for current promotions. Looking for anything specific within a budget?"
-    }
-    
-    // Default responses
-    const defaultResponses = [
-      "That's interesting! Can you tell me more about what you're looking for?",
-      "I'd be happy to help with that. Could you provide more details?",
-      "Let me help you with that. What specific information do you need?",
-      "Thanks for asking! How can I assist you with your shopping today?",
-      "I'm here to make your shopping easier. What would you like to know?"
-    ]
-    
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)]
   }
 
-  const handleSendMessage = async () => {
+const handleSendMessage = async () => {
     if (!inputValue.trim()) return
 
     const userMessage = {
@@ -93,22 +57,54 @@ const ChatBot = ({ isOpen, onClose }) => {
       timestamp: new Date()
     }
 
+    // Add user message to chat service
+    chatService.addMessage({
+      type: 'user',
+      content: userMessage.content
+    })
+
     setMessages(prev => [...prev, userMessage])
     setInputValue('')
     setIsTyping(true)
 
-    // Simulate bot thinking time
-    setTimeout(() => {
+    try {
+      // Get context for better responses
+      const context = {
+        currentStore: null, // Could be enhanced to pass actual store context
+        cartCount: 0, // Could be enhanced to pass actual cart count
+        userHistory: messages.filter(m => m.type === 'user').map(m => m.content)
+      }
+
+      // Generate bot response using chatService
+      const botResponseContent = await getBotResponse(userMessage.content, context)
+      
       const botResponse = {
         id: Date.now() + 1,
         type: 'bot',
-        content: getBotResponse(userMessage.content),
+        content: botResponseContent,
         timestamp: new Date()
       }
 
+      // Add bot response to chat service
+      chatService.addMessage({
+        type: 'bot',
+        content: botResponse.content
+      })
+
       setMessages(prev => [...prev, botResponse])
+    } catch (error) {
+      console.error('Error handling message:', error)
+      const errorResponse = {
+        id: Date.now() + 1,
+        type: 'bot',
+        content: "I'm sorry, I'm experiencing some technical difficulties. Please try again in a moment.",
+        timestamp: new Date()
+      }
+      setMessages(prev => [...prev, errorResponse])
+      toast.error('Chat service temporarily unavailable')
+    } finally {
       setIsTyping(false)
-    }, 1000 + Math.random() * 1000) // 1-2 seconds delay
+    }
   }
 
   const handleKeyPress = (e) => {
@@ -118,13 +114,21 @@ const ChatBot = ({ isOpen, onClose }) => {
     }
   }
 
-  const clearChat = () => {
+const clearChat = () => {
+    // Clear chat service conversation
+    chatService.clearConversation()
+    
+    // Reset local state
     setMessages([{
       id: 1,
       type: 'bot',
       content: "Chat cleared! How can I help you today?",
       timestamp: new Date()
     }])
+    
+    // Initialize new session
+    chatService.getCurrentSession()
+    
     toast.success('Chat history cleared')
   }
 
