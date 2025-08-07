@@ -58,7 +58,7 @@ class ChatService {
     const { currentStore, cartCount = 0, userHistory = [] } = context
 
     // Greeting responses
-    if (this.isGreeting(message)) {
+if (this.isGreeting(message)) {
       return this.getGreetingResponse()
     }
 
@@ -140,7 +140,7 @@ class ChatService {
   getStoreResponse(message, currentStore) {
     if (currentStore) {
       return `You're currently browsing ${currentStore.name}! This store specializes in ${currentStore.categories.join(', ')}. I can help you find specific products here or guide you to other stores. What are you looking for?`
-    }
+}
 
     return `MarketHub has 5 fantastic stores:\n\n🔌 **Electronics** - Latest gadgets, phones, laptops\n👗 **Fashion** - Trendy clothing and accessories\n🏠 **Home & Garden** - Furniture and home decor\n📚 **Books** - Wide selection of books and e-books\n⚽ **Sports** - Fitness equipment and sportswear\n\nWhich store would you like to explore?`
   }
@@ -233,5 +233,5 @@ class ChatService {
 }
 
 // Export singleton instance
-export const chatService = new ChatService()
+const chatService = new ChatService()
 export default chatService

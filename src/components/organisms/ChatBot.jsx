@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLocation, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ApperIcon from '@/components/ApperIcon'
 import Button from '@/components/atoms/Button'
 import chatService from '@/services/api/chatService'
+import { storeService } from '@/services/api/storeService'
+import { cartService } from '@/services/api/cartService'
+
 const ChatBot = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([
     {
@@ -67,11 +71,34 @@ const handleSendMessage = async () => {
     setInputValue('')
     setIsTyping(true)
 
-    try {
-      // Get context for better responses
+try {
+      // Get current application context
+      const location = useLocation()
+      const { storeId } = useParams()
+      
+      // Get current store information if available
+      let currentStore = null
+      if (storeId) {
+        try {
+          currentStore = storeService.getById(parseInt(storeId))
+        } catch (error) {
+          console.log('Store context not available:', error)
+        }
+      }
+      
+      // Get current cart count
+      let cartCount = 0
+      try {
+        const cartItems = cartService.getAll()
+        cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
+      } catch (error) {
+        console.log('Cart context not available:', error)
+      }
+      
       const context = {
-        currentStore: null, // Could be enhanced to pass actual store context
-        cartCount: 0, // Could be enhanced to pass actual cart count
+        currentStore,
+        cartCount,
+        currentPath: location.pathname,
         userHistory: messages.filter(m => m.type === 'user').map(m => m.content)
       }
 
