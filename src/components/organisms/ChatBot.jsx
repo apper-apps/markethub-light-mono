@@ -21,6 +21,9 @@ const ChatBot = ({ isOpen, onClose }) => {
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+// Get routing context at component level (Rules of Hooks compliance)
+  const location = useLocation()
+  const { storeId } = useParams()
 
   useEffect(() => {
     scrollToBottom()
@@ -72,10 +75,6 @@ const handleSendMessage = async () => {
     setIsTyping(true)
 
 try {
-      // Get current application context
-      const location = useLocation()
-      const { storeId } = useParams()
-      
       // Get current store information if available
       let currentStore = null
       if (storeId) {
