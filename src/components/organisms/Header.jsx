@@ -8,7 +8,7 @@ import Button from "@/components/atoms/Button"
 import SearchBar from "@/components/molecules/SearchBar"
 import { cartService } from "@/services/api/cartService"
 import { storeService } from "@/services/api/storeService"
-import { AuthContext } from "../App"
+import { AuthContext } from "../../App"
 
 const Header = () => {
   const navigate = useNavigate()
