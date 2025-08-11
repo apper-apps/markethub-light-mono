@@ -15,7 +15,7 @@ const ProductCard = ({ product, className = "" }) => {
   const handleAddToCart = async (e) => {
     e.stopPropagation()
     try {
-      await cartService.addToCart(product.Id, 1)
+await cartService.addToCart(product.Id, 1)
       toast.success(`${product.name} added to cart!`)
     } catch (error) {
       toast.error("Failed to add item to cart")
@@ -72,7 +72,7 @@ const handleImageLoad = () => {
           </div>
         ) : (
           <img
-            src={product.images?.[0] || ''}
+src={product.images?.[0] || ''}
             alt={product.name}
             className={`w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 ${
               imageLoading ? 'opacity-0' : 'opacity-100'
@@ -82,7 +82,7 @@ const handleImageLoad = () => {
             style={{ display: imageLoading ? 'none' : 'block' }}
           />
         )}
-        {product.stock < 10 && (
+{product.stock < 10 && (
           <Badge 
             variant="warning" 
             className="absolute top-3 right-3 text-xs"
@@ -90,7 +90,7 @@ const handleImageLoad = () => {
             Low Stock
           </Badge>
         )}
-        {product.rating >= 4.8 && (
+{product.rating >= 4.8 && (
           <Badge 
             variant="success" 
             className="absolute top-3 left-3 text-xs"
@@ -102,26 +102,26 @@ const handleImageLoad = () => {
 
       <div className="p-4">
         <div className="flex items-center gap-1 mb-2">
-          {renderStars(product.rating)}
+{renderStars(product.rating)}
           <span className="text-sm text-gray-600 ml-1">
             ({product.rating})
           </span>
         </div>
 
         <h3 className="font-display font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors duration-200">
-          {product.name}
+{product.name}
         </h3>
 
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+<p className="text-gray-600 text-sm mb-3 line-clamp-2">
           {product.description}
         </p>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-text">
+<span className="text-2xl font-bold gradient-text">
               ${product.price}
             </span>
-            {product.stock > 0 ? (
+{product.stock > 0 ? (
               <Badge variant="success" className="text-xs">
                 In Stock
               </Badge>
@@ -135,7 +135,7 @@ const handleImageLoad = () => {
           <Button
             variant="primary"
             size="sm"
-            onClick={handleAddToCart}
+onClick={handleAddToCart}
             disabled={product.stock === 0}
             className="flex items-center gap-2"
           >

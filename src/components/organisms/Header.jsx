@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { motion } from "framer-motion"
 import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
 import ApperIcon from "@/components/ApperIcon"
 import Button from "@/components/atoms/Button"
 import SearchBar from "@/components/molecules/SearchBar"
 import { cartService } from "@/services/api/cartService"
 import { storeService } from "@/services/api/storeService"
+import { AuthContext } from "../App"
 
 const Header = () => {
   const navigate = useNavigate()
@@ -16,6 +18,8 @@ const Header = () => {
   const [currentStore, setCurrentStore] = useState(null)
   const [showStoreDropdown, setShowStoreDropdown] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { logout } = useContext(AuthContext)
+  const { user, isAuthenticated } = useSelector((state) => state.user)
 
   useEffect(() => {
     loadCartCount()
@@ -73,6 +77,16 @@ const Header = () => {
     setCurrentStore(store)
     setShowStoreDropdown(false)
     navigate(`/store/${store.Id}`)
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      toast.success("Logged out successfully")
+    } catch (error) {
+      console.error("Logout error:", error)
+      toast.error("Failed to logout")
+    }
   }
 
   return (
@@ -186,6 +200,23 @@ const Header = () => {
                   </motion.span>
                 )}
               </Button>
+
+              {/* User Menu / Logout */}
+              {isAuthenticated && user && (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-gray-600">
+                    Hi, {user.firstName || user.name || 'User'}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                  >
+                    <ApperIcon name="LogOut" className="w-5 h-5" />
+                    <span>Logout</span>
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -243,6 +274,31 @@ const Header = () => {
               <ApperIcon name="X" className="w-5 h-5" />
             </Button>
           </div>
+
+          {/* User Info & Logout - Mobile */}
+          {isAuthenticated && user && (
+            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">
+                    {user.firstName || user.name || 'User'}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {user.emailAddress || user.email || ''}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={handleLogout}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <ApperIcon name="LogOut" className="w-4 h-4" />
+                  Logout
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Mobile Search */}
           <div className="mb-6">

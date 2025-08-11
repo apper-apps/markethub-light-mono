@@ -28,12 +28,12 @@ const Cart = () => {
       setLoading(true)
       setError("")
       
-      const cart = await cartService.getCart()
+const cart = await cartService.getCart()
       setCartItems(cart)
       
       if (cart.length > 0) {
         // Load product details for each cart item
-        const productPromises = cart.map(item => productService.getById(item.productId))
+const productPromises = cart.map(item => productService.getById(item.productId))
         const productData = await Promise.all(productPromises)
         
         const productsMap = {}
@@ -41,7 +41,7 @@ const Cart = () => {
         
         productData.forEach(product => {
           if (product) {
-            productsMap[product.Id] = product
+productsMap[product.Id] = product
             storeIds.add(product.storeId)
           }
         })
@@ -50,14 +50,14 @@ const Cart = () => {
         
         // Load store details
         const storePromises = Array.from(storeIds).map(storeId => 
-          storeService.getById(storeId)
+storeService.getById(storeId)
         )
         const storeData = await Promise.all(storePromises)
         
         const storesMap = {}
         storeData.forEach(store => {
           if (store) {
-            storesMap[store.Id] = store
+storesMap[store.Id] = store
           }
         })
         
@@ -72,7 +72,7 @@ const Cart = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      const product = products[item.productId]
+const product = products[item.productId]
       return product ? total + (product.price * item.quantity) : total
     }, 0)
   }
@@ -88,7 +88,7 @@ const Cart = () => {
   const groupItemsByStore = () => {
     const groups = {}
     cartItems.forEach(item => {
-      const product = products[item.productId]
+const product = products[item.productId]
       if (product) {
         const storeId = product.storeId
         if (!groups[storeId]) {
@@ -160,7 +160,7 @@ const Cart = () => {
         {/* Cart Items */}
         <div className="lg:col-span-2">
           <AnimatePresence>
-            {Object.entries(groupedItems).map(([storeId, storeItems]) => {
+{Object.entries(groupedItems).map(([storeId, storeItems]) => {
               const store = stores[parseInt(storeId)]
               return (
                 <motion.div
@@ -172,7 +172,7 @@ const Cart = () => {
                   {/* Store Header */}
                   {store && (
                     <div 
-                      className="flex items-center gap-3 p-4 rounded-lg mb-4"
+className="flex items-center gap-3 p-4 rounded-lg mb-4"
                       style={{ backgroundColor: `${store.themeColor}10` }}
                     >
                       <div 
@@ -199,7 +199,7 @@ const Cart = () => {
                   {/* Store Items */}
                   <div className="space-y-4">
                     {storeItems.map(({ item, product }) => (
-                      <CartItem
+<CartItem
                         key={item.productId}
                         item={item}
                         product={product}

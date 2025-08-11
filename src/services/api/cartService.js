@@ -1,74 +1,161 @@
-let cartItems = []
-let nextOrderId = 1
+const { ApperClient } = window.ApperSDK;
 
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const apperClient = new ApperClient({
+  apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+  apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+});
+
+// In-memory cart storage for demo purposes
+let cartItems = [];
+let nextOrderId = 1;
 
 export const cartService = {
   async getCart() {
-    await delay(200)
-    return [...cartItems]
+    try {
+      // For now, return in-memory cart items
+      // In future, this would fetch from cart_item_c table
+      return [...cartItems];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching cart:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
   },
 
   async addToCart(productId, quantity = 1) {
-    await delay(300)
-    const existingItem = cartItems.find(item => item.productId === parseInt(productId))
-    
-    if (existingItem) {
-      existingItem.quantity += quantity
-    } else {
-      const newItem = {
-        Id: cartItems.length + 1,
-        productId: parseInt(productId),
-        quantity: quantity,
-        addedAt: new Date().toISOString()
+    try {
+      const existingItem = cartItems.find(item => item.productId === parseInt(productId));
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        const newItem = {
+          Id: cartItems.length + 1,
+          productId: parseInt(productId),
+          quantity: quantity,
+          addedAt: new Date().toISOString()
+        };
+        cartItems.push(newItem);
+        
+        // In production, would create record in cart_item_c table:
+        // const params = {
+        //   records: [{
+        //     Name: `Cart Item ${newItem.Id}`,
+        //     product_id_c: parseInt(productId),
+        //     quantity_c: quantity,
+        //     added_at_c: new Date().toISOString()
+        //   }]
+        // };
+        // const response = await apperClient.createRecord('cart_item_c', params);
       }
-      cartItems.push(newItem)
+      
+      return [...cartItems];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error adding to cart:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-    
-    return [...cartItems]
   },
 
   async updateQuantity(productId, quantity) {
-    await delay(250)
-    const item = cartItems.find(item => item.productId === parseInt(productId))
-    
-    if (item) {
-      if (quantity <= 0) {
-        cartItems = cartItems.filter(item => item.productId !== parseInt(productId))
-      } else {
-        item.quantity = quantity
+    try {
+      const item = cartItems.find(item => item.productId === parseInt(productId));
+      
+      if (item) {
+        if (quantity <= 0) {
+          cartItems = cartItems.filter(item => item.productId !== parseInt(productId));
+        } else {
+          item.quantity = quantity;
+        }
+        
+        // In production, would update record in cart_item_c table:
+        // const params = {
+        //   records: [{
+        //     Id: item.Id,
+        //     quantity_c: quantity
+        //   }]
+        // };
+        // const response = await apperClient.updateRecord('cart_item_c', params);
       }
+      
+      return [...cartItems];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error updating cart quantity:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-    
-    return [...cartItems]
   },
 
   async removeFromCart(productId) {
-    await delay(200)
-    cartItems = cartItems.filter(item => item.productId !== parseInt(productId))
-    return [...cartItems]
+    try {
+      cartItems = cartItems.filter(item => item.productId !== parseInt(productId));
+      
+      // In production, would delete record from cart_item_c table:
+      // const response = await apperClient.deleteRecord('cart_item_c', {
+      //   RecordIds: [cartItemId]
+      // });
+      
+      return [...cartItems];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error removing from cart:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
+    }
   },
 
   async clearCart() {
-    await delay(150)
-    cartItems = []
-    return []
+    try {
+      cartItems = [];
+      
+      // In production, would delete all user's cart items from cart_item_c table
+      
+      return [];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error clearing cart:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
   },
 
   async createOrder(orderData) {
-    await delay(500)
-    const order = {
-      Id: nextOrderId++,
-      ...orderData,
-      items: [...cartItems],
-      status: "confirmed",
-      createdAt: new Date().toISOString(),
-      estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
+    try {
+      const order = {
+        Id: nextOrderId++,
+        ...orderData,
+        items: [...cartItems],
+        status: "confirmed",
+        createdAt: new Date().toISOString(),
+        estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
+      };
+      
+      // Clear cart after order
+      cartItems = [];
+      
+      // In production, would create order records and clear cart_item_c table
+      
+      return { ...order };
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error creating order:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-    
-    // Clear cart after order
-    cartItems = []
-    
-    return { ...order }
   }
-}
+};

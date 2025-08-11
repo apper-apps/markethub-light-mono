@@ -7,7 +7,8 @@ import Button from "@/components/atoms/Button"
 
 const Layout = ({ children }) => {
   const [isChatOpen, setIsChatOpen] = useState(false)
-return (
+
+  return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-20">

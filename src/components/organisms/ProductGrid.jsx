@@ -26,7 +26,7 @@ const ProductGrid = ({ storeId = null, category = null }) => {
       setLoading(true)
       setError("")
       
-      const searchQuery = searchParams.get("q")
+const searchQuery = searchParams.get("q")
       let data = []
 
       if (searchQuery) {
@@ -49,7 +49,7 @@ const ProductGrid = ({ storeId = null, category = null }) => {
 
   const sortedProducts = [...products].sort((a, b) => {
     switch (sortBy) {
-      case "price-low":
+case "price-low":
         return a.price - b.price
       case "price-high":
         return b.price - a.price
@@ -98,7 +98,7 @@ const ProductGrid = ({ storeId = null, category = null }) => {
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">
-            {products.length} product{products.length !== 1 ? "s" : ""}
+{products.length} product{products.length !== 1 ? "s" : ""}
           </span>
           
           {/* View Mode Toggle */}
@@ -149,7 +149,7 @@ const ProductGrid = ({ storeId = null, category = null }) => {
       >
         {sortedProducts.map((product, index) => (
           <motion.div
-            key={product.Id}
+key={product.Id}
             layout
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

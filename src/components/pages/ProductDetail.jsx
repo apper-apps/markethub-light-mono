@@ -30,15 +30,13 @@ const ProductDetail = () => {
       setLoading(true)
       setError("")
       
-      const productData = await productService.getById(productId)
-      
+const productData = await productService.getById(productId)
       if (!productData) {
         setError("Product not found")
         return
       }
       
-      const storeData = await storeService.getById(productData.storeId)
-      
+const storeData = await storeService.getById(productData.storeId)
       setProduct(productData)
       setStore(storeData)
     } catch (err) {
@@ -50,7 +48,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     try {
-      await cartService.addToCart(product.Id, quantity)
+await cartService.addToCart(product.Id, quantity)
       toast.success(`${quantity} ${product.name} added to cart!`)
     } catch (error) {
       toast.error("Failed to add item to cart")
@@ -59,7 +57,7 @@ const ProductDetail = () => {
 
   const handleBuyNow = async () => {
     try {
-      await cartService.addToCart(product.Id, quantity)
+await cartService.addToCart(product.Id, quantity)
       navigate("/checkout")
     } catch (error) {
       toast.error("Failed to add item to cart")
@@ -72,7 +70,7 @@ const ProductDetail = () => {
         key={i}
         name="Star"
         className={`w-5 h-5 ${
-          i < Math.floor(rating) 
+i < Math.floor(rating) 
             ? "text-yellow-400 fill-current" 
             : "text-gray-300"
         }`}
@@ -130,7 +128,7 @@ const ProductDetail = () => {
         {store && (
           <>
             <button 
-              onClick={() => navigate(`/store/${store.Id}`)} 
+onClick={() => navigate(`/store/${store.Id}`)} 
               className="hover:text-primary-600"
             >
               {store.name}
@@ -138,7 +136,7 @@ const ProductDetail = () => {
             <ApperIcon name="ChevronRight" className="w-4 h-4" />
           </>
         )}
-        <span className="text-gray-900 font-medium">{product.name}</span>
+<span className="text-gray-900 font-medium">{product.name}</span>
       </motion.nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -150,11 +148,11 @@ const ProductDetail = () => {
         >
           <div className="relative overflow-hidden rounded-xl bg-gray-100">
             <img
-              src={product.images[selectedImage]}
+src={product.images[selectedImage]}
               alt={product.name}
               className="w-full h-96 object-cover"
             />
-            {product.stock < 10 && product.stock > 0 && (
+{product.stock < 10 && product.stock > 0 && (
               <Badge 
                 variant="warning" 
                 className="absolute top-4 right-4"
@@ -162,7 +160,7 @@ const ProductDetail = () => {
                 Only {product.stock} left
               </Badge>
             )}
-            {product.stock === 0 && (
+{product.stock === 0 && (
               <Badge 
                 variant="error" 
                 className="absolute top-4 right-4"
@@ -173,7 +171,7 @@ const ProductDetail = () => {
           </div>
           
           {product.images.length > 1 && (
-            <div className="flex gap-4">
+<div className="flex gap-4">
               {product.images.map((image, index) => (
                 <button
                   key={index}
@@ -205,7 +203,7 @@ const ProductDetail = () => {
           {store && (
             <div className="flex items-center gap-3">
               <div 
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
+className="w-8 h-8 rounded-lg flex items-center justify-center"
                 style={{ backgroundColor: `${store.themeColor}20` }}
               >
                 <ApperIcon 
@@ -225,7 +223,7 @@ const ProductDetail = () => {
           )}
 
           {/* Rating */}
-          <div className="flex items-center gap-2">
+<div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               {renderStars(product.rating)}
             </div>
@@ -238,13 +236,13 @@ const ProductDetail = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
+<h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
             {product.name}
           </h1>
 
           {/* Price */}
           <div className="flex items-center gap-4">
-            <span className="text-4xl font-bold gradient-text">
+<span className="text-4xl font-bold gradient-text">
               ${product.price}
             </span>
             {product.stock > 0 ? (
@@ -256,13 +254,13 @@ const ProductDetail = () => {
 
           {/* Description */}
           <div className="prose prose-gray max-w-none">
-            <p className="text-gray-700 leading-relaxed">
+<p className="text-gray-700 leading-relaxed">
               {product.description}
             </p>
           </div>
 
           {/* Specifications */}
-          {product.specifications && (
+{product.specifications && (
             <div className="card-premium p-4">
               <h3 className="font-semibold text-gray-900 mb-3">Specifications</h3>
               <div className="space-y-2">
@@ -295,7 +293,7 @@ const ProductDetail = () => {
                 </span>
                 <Button
                   variant="outline"
-                  size="sm"
+size="sm"
                   onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                   disabled={quantity >= product.stock}
                   className="w-10 h-10 p-0 flex items-center justify-center"
@@ -310,7 +308,7 @@ const ProductDetail = () => {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
-                onClick={handleAddToCart}
+onClick={handleAddToCart}
                 disabled={product.stock === 0}
                 className="flex-1 flex items-center justify-center gap-2"
               >
@@ -319,7 +317,7 @@ const ProductDetail = () => {
               </Button>
               <Button
                 variant="secondary"
-                onClick={handleBuyNow}
+onClick={handleBuyNow}
                 disabled={product.stock === 0}
                 className="flex-1 flex items-center justify-center gap-2"
               >

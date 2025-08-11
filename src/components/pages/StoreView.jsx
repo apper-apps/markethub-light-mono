@@ -25,8 +25,7 @@ const StoreView = () => {
       setLoading(true)
       setError("")
       
-      const storeData = await storeService.getById(storeId)
-      
+const storeData = await storeService.getById(storeId)
       if (!storeData) {
         setError("Store not found")
         return
@@ -87,7 +86,7 @@ const StoreView = () => {
         <div className="flex items-center gap-6 mb-6">
           <div 
             className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg"
-            style={{ backgroundColor: `${store.themeColor}20` }}
+style={{ backgroundColor: `${store.themeColor}20` }}
           >
             <ApperIcon 
               name={store.icon} 
@@ -96,14 +95,14 @@ const StoreView = () => {
             />
           </div>
           <div className="flex-1">
-            <h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">
+<h1 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">
               {store.name} Store
             </h1>
-            <p className="text-lg text-gray-600 mb-4">
+<p className="text-lg text-gray-600 mb-4">
               {store.description}
             </p>
             <div className="flex flex-wrap gap-2">
-              {store.categories.map((category, index) => (
+{store.categories.map((category, index) => (
                 <span
                   key={index}
                   className="px-3 py-1 bg-white border rounded-full text-sm text-gray-600 font-medium shadow-sm"
@@ -122,7 +121,7 @@ const StoreView = () => {
         <div className="hidden lg:block w-64 flex-shrink-0">
           <div className="card-premium p-4 sticky top-24">
             <CategorySidebar
-              categories={store.categories}
+categories={store.categories}
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}
               storeColor={store.themeColor}
@@ -137,7 +136,7 @@ const StoreView = () => {
             whileTap={{ scale: 0.95 }}
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="w-14 h-14 rounded-full shadow-premium flex items-center justify-center text-white"
-            style={{ backgroundColor: store.themeColor }}
+style={{ backgroundColor: store.themeColor }}
           >
             <ApperIcon name="Filter" className="w-6 h-6" />
           </motion.button>
@@ -167,7 +166,7 @@ const StoreView = () => {
                   </button>
                 </div>
                 <CategorySidebar
-                  categories={store.categories}
+categories={store.categories}
                   selectedCategory={selectedCategory}
                   onCategorySelect={(category) => {
                     setSelectedCategory(category)
@@ -188,7 +187,7 @@ const StoreView = () => {
             transition={{ delay: 0.1 }}
           >
             <ProductGrid 
-              storeId={parseInt(storeId)}
+storeId={parseInt(storeId)}
               category={selectedCategory}
             />
           </motion.div>
