@@ -269,7 +269,7 @@ export const productService = {
     }
   },
 
-  transformProduct(product) {
+transformProduct(product) {
     return {
       Id: product.Id,
       name: product.Name,
