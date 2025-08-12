@@ -44,8 +44,7 @@ export const storeService = {
       return [];
     }
   },
-
-  async getById(id) {
+async getById(id) {
     try {
       const params = {
         fields: [
@@ -80,6 +79,147 @@ export const storeService = {
         console.error(error.message);
       }
       return null;
+    }
+  },
+
+  async create(storeData) {
+    try {
+      const params = {
+        records: [
+          {
+            // Only include Updateable fields as per field visibility rules
+            Name: storeData.name,
+            Tags: storeData.tags || '',
+            icon_c: storeData.icon || 'Store',
+            theme_color_c: storeData.themeColor || '#3b82f6',
+            description_c: storeData.description || '',
+            categories_c: Array.isArray(storeData.categories) ? storeData.categories.join(', ') : storeData.categories || ''
+          }
+        ]
+      };
+
+      const response = await apperClient.createRecord('store_c', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} store records:${JSON.stringify(failedRecords)}`);
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              throw new Error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) throw new Error(record.message);
+          });
+        }
+
+        return successfulRecords.length > 0 ? successfulRecords[0].data : null;
+      }
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error creating store:", error?.response?.data?.message);
+        throw new Error(error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+        throw error;
+      }
+    }
+  },
+
+  async update(id, storeData) {
+    try {
+      const params = {
+        records: [
+          {
+            // Include ID and only Updateable fields
+            Id: parseInt(id),
+            Name: storeData.name,
+            Tags: storeData.tags || '',
+            icon_c: storeData.icon || 'Store',
+            theme_color_c: storeData.themeColor || '#3b82f6',
+            description_c: storeData.description || '',
+            categories_c: Array.isArray(storeData.categories) ? storeData.categories.join(', ') : storeData.categories || ''
+          }
+        ]
+      };
+
+      const response = await apperClient.updateRecord('store_c', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} store records:${JSON.stringify(failedUpdates)}`);
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              throw new Error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) throw new Error(record.message);
+          });
+        }
+
+        return successfulUpdates.length > 0 ? successfulUpdates[0].data : null;
+      }
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error updating store:", error?.response?.data?.message);
+        throw new Error(error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+        throw error;
+      }
+    }
+  },
+
+  async delete(id) {
+    try {
+      const params = {
+        RecordIds: [parseInt(id)]
+      };
+
+      const response = await apperClient.deleteRecord('store_c', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} store records:${JSON.stringify(failedDeletions)}`);
+          
+          failedDeletions.forEach(record => {
+            if (record.message) throw new Error(record.message);
+          });
+        }
+
+        return successfulDeletions.length > 0;
+      }
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error deleting store:", error?.response?.data?.message);
+        throw new Error(error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+        throw error;
+      }
     }
   }
 };

@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify"
 import { setUser, clearUser } from './store/userSlice';
 import Layout from "@/components/organisms/Layout"
 import StoreDashboard from "@/components/pages/StoreDashboard"
+import AddStore from "@/components/pages/AddStore"
 import StoreView from "@/components/pages/StoreView"
 import ProductDetail from "@/components/pages/ProductDetail"
 import Cart from "@/components/pages/Cart"
@@ -16,7 +17,6 @@ import Callback from '@/components/pages/Callback';
 import ErrorPage from '@/components/pages/ErrorPage';
 import ResetPassword from '@/components/pages/ResetPassword';
 import PromptPassword from '@/components/pages/PromptPassword';
-
 // Create auth context
 export const AuthContext = createContext(null);
 
@@ -124,7 +124,7 @@ function App() {
     <AuthContext.Provider value={authMethods}>
       <div className="min-h-screen bg-background">
         <Layout>
-          <Routes>
+<Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/callback" element={<Callback />} />
@@ -132,6 +132,7 @@ function App() {
             <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
             <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
             <Route path="/" element={<StoreDashboard />} />
+            <Route path="/add-store" element={<AddStore />} />
             <Route path="/store/:storeId" element={<StoreView />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />

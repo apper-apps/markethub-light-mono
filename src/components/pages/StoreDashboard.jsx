@@ -169,12 +169,15 @@ const StoreDashboard = () => {
           </h3>
           <p className="text-gray-600 mb-6">
             Explore thousands of products across all our stores with fast delivery and secure checkout.
-          </p>
+</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <div className="btn-primary inline-flex items-center gap-2">
-                🛍️ Browse All Products
-              </div>
+              <button
+                onClick={() => window.location.href = '/add-store'}
+                className="btn-primary inline-flex items-center gap-2"
+              >
+                🏪 Add New Store
+              </button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <div className="btn-secondary inline-flex items-center gap-2">
