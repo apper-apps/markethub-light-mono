@@ -1,5 +1,5 @@
 [
-  {
+{
     "Id": 1,
     "storeId": 1,
     "name": "iPhone 15 Pro",
@@ -7,9 +7,14 @@
     "description": "The latest iPhone with advanced camera system, powerful A17 Pro chip, and titanium design. Features a 6.1-inch Super Retina XDR display, 5G connectivity, and all-day battery life.",
     "images": ["https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400", "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=400"],
     "category": "Smartphones",
-"stock": 25,
+    "stock": 25,
     "rating": 4.8,
-    "specifications": "Display: 6.1-inch Super Retina XDR, Chip: A17 Pro, Storage: 128GB, Camera: 48MP Main + 12MP Ultra Wide + 12MP Telephoto"
+    "specifications": {
+      "Display": "6.1-inch Super Retina XDR",
+      "Chip": "A17 Pro",
+      "Storage": "128GB",
+      "Camera": "48MP Main + 12MP Ultra Wide + 12MP Telephoto"
+    }
   },
   {
     "Id": 2,
