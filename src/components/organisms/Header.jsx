@@ -156,6 +156,21 @@ const Header = () => {
                         <div className="text-xs text-gray-500">Browse everything</div>
                       </div>
                     </button>
+<button
+                      onClick={() => {
+                        setShowStoreDropdown(false)
+                        navigate("/add-store")
+                      }}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition-colors duration-200 border-b border-gray-100"
+                    >
+                      <div className="w-8 h-8 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg flex items-center justify-center">
+                        <ApperIcon name="Plus" className="w-4 h-4 text-primary-600" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-primary-600">Add Store</div>
+                        <div className="text-xs text-gray-500">Create a new store</div>
+                      </div>
+                    </button>
                     {stores.map((store) => (
                       <button
                         key={store.Id}
@@ -328,6 +343,21 @@ const Header = () => {
               <div className="text-left">
                 <div className="font-medium text-gray-900">All Stores</div>
                 <div className="text-sm text-gray-500">Browse everything</div>
+              </div>
+            </button>
+<button
+              onClick={() => {
+                setIsMobileMenuOpen(false)
+                navigate("/add-store")
+              }}
+              className="w-full p-3 rounded-lg hover:bg-gray-50 flex items-center gap-3 transition-colors duration-200 border-b border-gray-100 mb-2"
+            >
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg flex items-center justify-center">
+                <ApperIcon name="Plus" className="w-5 h-5 text-primary-600" />
+              </div>
+              <div className="text-left">
+                <div className="font-medium text-primary-600">Add Store</div>
+                <div className="text-sm text-gray-500">Create a new store</div>
               </div>
             </button>
             {stores.map((store) => (
