@@ -184,8 +184,7 @@ async getById(id) {
       }
     }
   },
-
-  async delete(id) {
+async delete(id) {
     try {
       const params = {
         RecordIds: [parseInt(id)]

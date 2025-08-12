@@ -48,7 +48,7 @@ const storeData = await storeService.getById(productData.storeId)
 
   const handleAddToCart = async () => {
     try {
-await cartService.addToCart(product.Id, quantity)
+await cartService.addToCart(product.id, quantity)
       toast.success(`${quantity} ${product.name} added to cart!`)
     } catch (error) {
       toast.error("Failed to add item to cart")
@@ -57,7 +57,7 @@ await cartService.addToCart(product.Id, quantity)
 
   const handleBuyNow = async () => {
     try {
-await cartService.addToCart(product.Id, quantity)
+await cartService.addToCart(product.id, quantity)
       navigate("/checkout")
     } catch (error) {
       toast.error("Failed to add item to cart")
@@ -70,7 +70,7 @@ await cartService.addToCart(product.Id, quantity)
         key={i}
         name="Star"
         className={`w-5 h-5 ${
-i < Math.floor(rating) 
+i < Math.floor(rating)
             ? "text-yellow-400 fill-current" 
             : "text-gray-300"
         }`}

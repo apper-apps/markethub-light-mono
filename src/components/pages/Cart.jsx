@@ -41,7 +41,7 @@ const productPromises = cart.map(item => productService.getById(item.productId))
         
         productData.forEach(product => {
           if (product) {
-productsMap[product.Id] = product
+productsMap[product.id] = product
             storeIds.add(product.storeId)
           }
         })

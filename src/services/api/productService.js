@@ -267,20 +267,22 @@ export const productService = {
       }
       return [];
     }
-  },
+},
 
-transformProduct(product) {
+  // Transform database product to UI format
+  transformProduct(product) {
     return {
+      id: product.Id,
       Id: product.Id,
       name: product.Name,
-      price: product.price_c || 0,
-      description: product.description_c || '',
-      images: product.images_c ? product.images_c.split(',').map(img => img.trim()) : [],
-      category: product.category_c || '',
-      stock: product.stock_c || 0,
-      rating: product.rating_c || 0,
+      price: product.price_c,
+      description: product.description_c,
+      images: product.images_c ? JSON.parse(product.images_c) : [],
+      category: product.category_c,
+      stock: product.stock_c,
+      rating: product.rating_c,
       specifications: product.specifications_c ? JSON.parse(product.specifications_c) : {},
-      storeId: product.store_id_c?.Id || product.store_id_c || null
+      storeId: product.store_id_c?.Id || product.store_id_c
     };
   }
 };

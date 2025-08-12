@@ -157,5 +157,5 @@ export const cartService = {
       }
       throw error;
     }
-  }
+}
 };
