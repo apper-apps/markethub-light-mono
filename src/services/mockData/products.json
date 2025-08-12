@@ -9,12 +9,7 @@
     "category": "Smartphones",
 "stock": 25,
     "rating": 4.8,
-"specifications": {
-      "Display": "6.1-inch Super Retina XDR",
-      "Chip": "A17 Pro",
-      "Storage": "128GB",
-      "Camera": "48MP Main + 12MP Ultra Wide + 12MP Telephoto"
-    }
+    "specifications": "Display: 6.1-inch Super Retina XDR, Chip: A17 Pro, Storage: 128GB, Camera: 48MP Main + 12MP Ultra Wide + 12MP Telephoto"
   },
   {
     "Id": 2,
