@@ -155,6 +155,7 @@ export const cartService = {
       } else {
         console.error(error.message);
       }
-      throw error;
+throw error;
     }
+  }
 };
