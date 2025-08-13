@@ -5,7 +5,7 @@ const apperClient = new ApperClient({
   apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
 });
 
-// In-memory cart storage for demo purposes
+// In-memory cart storage (would be replaced with database calls)
 let cartItems = [];
 let nextOrderId = 1;
 
@@ -157,5 +157,4 @@ export const cartService = {
       }
       throw error;
     }
-}
 };
