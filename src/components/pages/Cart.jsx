@@ -39,10 +39,10 @@ const productPromises = cart.map(item => productService.getById(item.productId))
         const productsMap = {}
         const storeIds = new Set()
         
-        productData.forEach(product => {
+productData.forEach(product => {
           if (product) {
-productsMap[product.id] = product
-            storeIds.add(product.storeId)
+            productsMap[product.Id] = product
+            storeIds.add(product.store_c)
           }
         })
         
@@ -87,10 +87,10 @@ const product = products[item.productId]
 
   const groupItemsByStore = () => {
     const groups = {}
-    cartItems.forEach(item => {
-const product = products[item.productId]
+cartItems.forEach(item => {
+      const product = products[item.productId]
       if (product) {
-        const storeId = product.storeId
+        const storeId = product.store_c
         if (!groups[storeId]) {
           groups[storeId] = []
         }

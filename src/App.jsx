@@ -96,9 +96,9 @@ function App() {
       },
       onError: function(error) {
         console.error("Authentication failed:", error);
-      }
+}
     });
-  }, []);// No props and state should be bound
+  }, [navigate, dispatch]);
   
   // Authentication methods to share via context
   const authMethods = {

@@ -63,7 +63,7 @@ const Checkout = () => {
       
       const productsMap = {}
       productData.forEach(product => {
-        if (product) {
+if (product) {
           productsMap[product.Id] = product
         }
       })

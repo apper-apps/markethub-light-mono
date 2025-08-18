@@ -30,13 +30,13 @@ const StoreDashboard = () => {
       setStores(storesData)
       
       // Group featured products by store
-      const productsByStore = {}
+const productsByStore = {}
       allFeaturedProducts.forEach(product => {
-        if (!productsByStore[product.storeId]) {
-          productsByStore[product.storeId] = []
+        if (!productsByStore[product.store_c]) {
+          productsByStore[product.store_c] = []
         }
-        if (productsByStore[product.storeId].length < 2) {
-          productsByStore[product.storeId].push(product)
+        if (productsByStore[product.store_c].length < 2) {
+          productsByStore[product.store_c].push(product)
         }
       })
       
