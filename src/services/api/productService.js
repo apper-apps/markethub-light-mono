@@ -35,7 +35,7 @@ export const productService = {
       if (error?.response?.data?.message) {
         console.error("Error fetching products:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -69,7 +69,7 @@ export const productService = {
       if (error?.response?.data?.message) {
         console.error(`Error fetching product with ID ${id}:`, error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return null;
     }
@@ -111,7 +111,7 @@ export const productService = {
       if (error?.response?.data?.message) {
         console.error("Error fetching products by store ID:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -165,7 +165,7 @@ export const productService = {
       if (error?.response?.data?.message) {
         console.error("Error searching products:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -217,7 +217,7 @@ export const productService = {
       if (error?.response?.data?.message) {
         console.error("Error fetching products by category:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -263,7 +263,7 @@ export const productService = {
       if (error?.response?.data?.message) {
         console.error("Error fetching featured products:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }

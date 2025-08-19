@@ -19,7 +19,7 @@ export const cartService = {
       if (error?.response?.data?.message) {
         console.error("Error fetching cart:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -57,7 +57,7 @@ export const cartService = {
       if (error?.response?.data?.message) {
         console.error("Error adding to cart:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       throw error;
     }
@@ -89,7 +89,7 @@ export const cartService = {
       if (error?.response?.data?.message) {
         console.error("Error updating cart quantity:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       throw error;
     }
@@ -109,7 +109,7 @@ export const cartService = {
       if (error?.response?.data?.message) {
         console.error("Error removing from cart:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       throw error;
     }
@@ -126,7 +126,7 @@ export const cartService = {
       if (error?.response?.data?.message) {
         console.error("Error clearing cart:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -153,7 +153,7 @@ export const cartService = {
       if (error?.response?.data?.message) {
         console.error("Error creating order:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
 throw error;
     }

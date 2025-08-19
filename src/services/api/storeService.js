@@ -39,7 +39,7 @@ export const storeService = {
       if (error?.response?.data?.message) {
         console.error("Error fetching stores:", error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return [];
     }
@@ -76,7 +76,7 @@ async getById(id) {
       if (error?.response?.data?.message) {
         console.error(`Error fetching store with ID ${id}:`, error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
       }
       return null;
     }
@@ -127,7 +127,7 @@ async getById(id) {
         console.error("Error creating store:", error?.response?.data?.message);
         throw new Error(error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
         throw error;
       }
     }
@@ -179,7 +179,7 @@ async getById(id) {
         console.error("Error updating store:", error?.response?.data?.message);
         throw new Error(error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
         throw error;
       }
     }
@@ -216,7 +216,7 @@ async delete(id) {
         console.error("Error deleting store:", error?.response?.data?.message);
         throw new Error(error?.response?.data?.message);
       } else {
-        console.error(error.message);
+        console.error(error);
         throw error;
       }
     }
