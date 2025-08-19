@@ -22,14 +22,14 @@ export const productService = {
           { field: { Name: "store_id_c" } }
         ]
       };
-      
+
       const response = await apperClient.fetchRecords('product_c', params);
-      
+
       if (!response.success) {
         console.error(response.message);
         return [];
       }
-      
+
       return response.data.map(product => this.transformProduct(product));
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -57,13 +57,13 @@ export const productService = {
           { field: { Name: "store_id_c" } }
         ]
       };
-      
+
       const response = await apperClient.getRecordById('product_c', parseInt(id), params);
-      
+
       if (!response || !response.data) {
         return null;
       }
-      
+
       return this.transformProduct(response.data);
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -98,14 +98,14 @@ export const productService = {
           }
         ]
       };
-      
+
       const response = await apperClient.fetchRecords('product_c', params);
-      
+
       if (!response.success) {
         console.error(response.message);
         return [];
       }
-      
+
       return response.data.map(product => this.transformProduct(product));
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -120,7 +120,7 @@ export const productService = {
   async searchProducts(query, storeId = null) {
     try {
       const whereConditions = [];
-      
+
       if (query) {
         whereConditions.push({
           FieldName: "Name",
@@ -128,7 +128,7 @@ export const productService = {
           Values: [query]
         });
       }
-      
+
       if (storeId) {
         whereConditions.push({
           FieldName: "store_id_c",
@@ -136,7 +136,7 @@ export const productService = {
           Values: [parseInt(storeId)]
         });
       }
-      
+
       const params = {
         fields: [
           { field: { Name: "Name" } },
@@ -152,14 +152,14 @@ export const productService = {
         ],
         where: whereConditions
       };
-      
+
       const response = await apperClient.fetchRecords('product_c', params);
-      
+
       if (!response.success) {
         console.error(response.message);
         return [];
       }
-      
+
       return response.data.map(product => this.transformProduct(product));
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -180,7 +180,7 @@ export const productService = {
           Values: [category]
         }
       ];
-      
+
       if (storeId) {
         whereConditions.push({
           FieldName: "store_id_c",
@@ -188,7 +188,7 @@ export const productService = {
           Values: [parseInt(storeId)]
         });
       }
-      
+
       const params = {
         fields: [
           { field: { Name: "Name" } },
@@ -204,14 +204,14 @@ export const productService = {
         ],
         where: whereConditions
       };
-      
+
       const response = await apperClient.fetchRecords('product_c', params);
-      
+
       if (!response.success) {
         console.error(response.message);
         return [];
       }
-      
+
       return response.data.map(product => this.transformProduct(product));
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -250,14 +250,14 @@ export const productService = {
           offset: 0
         }
       };
-      
+
       const response = await apperClient.fetchRecords('product_c', params);
-      
+
       if (!response.success) {
         console.error(response.message);
         return [];
       }
-      
+
       return response.data.map(product => this.transformProduct(product));
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -267,21 +267,42 @@ export const productService = {
       }
       return [];
     }
-},
+  },
 
   // Transform database product to UI format
   transformProduct(product) {
+
+    let productImages = [];
+    if (product.images_c) {
+      try {
+        productImages = JSON.parse(product.images_c);
+      } catch (error) {
+        // If parsing fails, treat as array of string
+        productImages = [product.images_c];
+      }
+    }
+
+    let productSpecifications = {};
+    if (product.specifications_c) {
+      try {
+        productSpecifications = JSON.parse(product.specifications_c);
+      } catch (error) {
+        // If parsing fails, treat as array of string
+        productSpecifications = product.specifications_c;
+      }
+    }
+
     return {
       id: product.Id,
       Id: product.Id,
       name: product.Name,
       price: product.price_c,
       description: product.description_c,
-      images: product.images_c ? JSON.parse(product.images_c) : [],
+      images: productImages,
       category: product.category_c,
       stock: product.stock_c,
       rating: product.rating_c,
-      specifications: product.specifications_c ? JSON.parse(product.specifications_c) : {},
+      specifications: productSpecifications,
       storeId: product.store_id_c?.Id || product.store_id_c
     };
   }
