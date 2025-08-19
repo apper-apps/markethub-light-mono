@@ -93,10 +93,10 @@ function App() {
           }
           dispatch(clearUser());
         }
-      },
+},
       onError: function(error) {
         console.error("Authentication failed:", error);
-}
+      }
     });
   }, [navigate, dispatch]);
   
