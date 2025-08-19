@@ -264,12 +264,13 @@ className="w-8 h-8 rounded-lg flex items-center justify-center"
             <div className="card-premium p-4">
               <h3 className="font-semibold text-gray-900 mb-3">Specifications</h3>
               <div className="space-y-2">
-                {Object.entries(product.specifications).map(([key, value]) => (
+                <pre>{product.specifications}</pre>
+                {/* {Object.entries(product.specifications).map(([key, value]) => (
                   <div key={key} className="flex justify-between">
                     <span className="text-gray-600">{key}:</span>
                     <span className="font-medium text-gray-900">{value}</span>
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           )}
